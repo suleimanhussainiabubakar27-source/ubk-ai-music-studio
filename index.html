@@ -1,1 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b0b1a">
+<title>UBK AI MUSIC STUDIO</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="logo">♪</div>
+  <div><h1>UBK AI MUSIC STUDIO</h1><small>Hausa love songs with AI</small></div>
+</header>
 
+<main>
+  <!-- HOME -->
+  <section id="view-home" class="view active">
+    <div class="card hero">
+      <h2>Barka da zuwa! Welcome 👋</h2>
+      <p>Write Hausa love-song lyrics with AI, then turn them into a real song with vocals.</p>
+      <button class="btn primary big" data-view="create" data-new="1">＋ Create Song</button>
+    </div>
+    <div class="card">
+      <h3>My Songs</h3>
+      <div id="homeSongs"></div>
+      <button class="btn" data-view="songs">View all songs</button>
+    </div>
+    <div class="card note">
+      Music generation needs a paid ElevenLabs API key and lyrics need an Anthropic API key,
+      both set on the server. Hausa singing quality is not guaranteed. See the README.
+    </div>
+  </section>
+
+  <!-- CREATE -->
+  <section id="view-create" class="view">
+    <div class="card">
+      <h2 id="formHeading">Hausa Love Song Generator</h2>
+      <label>Song title
+        <input id="title" maxlength="100" placeholder="e.g. Sonka Ta Zuciya">
+      </label>
+      <label>Song description
+        <textarea id="description" rows="3" maxlength="600" placeholder="What is the song about? Who is it for? Any special words?"></textarea>
+      </label>
+      <div class="grid2">
+        <label>Language
+          <select id="language" disabled><option>Hausa</option></select>
+        </label>
+        <label>Genre
+          <select id="genre"><option>Hausa Love Song</option></select>
+        </label>
+        <label>Vocal type
+          <select id="vocal"><option>Male</option><option>Female</option><option>Duet</option><option>Instrumental</option></select>
+        </label>
+        <label>Mood
+          <select id="mood"><option>Romantic</option><option>Emotional</option><option>Happy</option><option>Sad</option></select>
+        </label>
+        <label>Tempo
+          <select id="tempo"><option>Slow</option><option selected>Medium</option><option>Fast</option></select>
+        </label>
+        <label>Length
+          <select id="duration"><option value="30">30 seconds (test)</option><option value="60">60 seconds</option><option value="120">2 minutes</option></select>
+        </label>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Lyrics</h3>
+      <button class="btn primary" id="btnLyrics">✨ Generate Hausa Lyrics</button>
+      <div id="lyricsMsg" class="msg"></div>
+      <textarea id="lyrics" rows="14" placeholder="Lyrics appear here. You can edit them freely."></textarea>
+      <div class="row">
+        <button class="btn" id="btnCopy">Copy</button>
+        <button class="btn" id="btnSave">Save project</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Generate real music</h3>
+      <button class="btn primary big" id="btnMusic">🎵 Generate Song with AI</button>
+      <div id="musicMsg" class="msg"></div>
+      <div id="result" class="result" hidden>
+        <p id="resultText"></p>
+        <div class="row">
+          <button class="btn" id="btnPlayResult">▶ Play</button>
+          <a class="btn" id="btnDownload" href="#" download>⬇ Download</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <label>Studio access code (only if the site owner set one)
+        <input id="accessCode" type="password" autocomplete="off" placeholder="Optional">
+      </label>
+    </div>
+  </section>
+
+  <!-- MY SONGS -->
+  <section id="view-songs" class="view">
+    <div class="card">
+      <h2>My Songs</h2>
+      <p class="note-text">Songs are saved in this browser on this device only (localStorage). They do not sync to the cloud and are lost if you clear browser data. Generated audio itself is stored on the site's server and linked from here.</p>
+    </div>
+    <div id="songList"></div>
+  </section>
+</main>
+
+<div id="player" class="player" hidden>
+  <audio id="audio" preload="metadata"></audio>
+  <div class="pTop"><strong id="pTitle"></strong><a id="pDl" class="dl" href="#" download hidden>⬇ Download</a></div>
+  <div class="pRow">
+    <button id="pPlay" aria-label="Play or pause">▶</button>
+    <span id="pCur">0:00</span>
+    <input id="pSeek" type="range" min="0" max="1000" value="0" aria-label="Playback progress">
+    <span id="pDur">0:00</span>
+  </div>
+</div>
+
+<nav>
+  <button data-view="home" class="active">🏠<span>Home</span></button>
+  <button data-view="create">🎤<span>Create</span></button>
+  <button data-view="songs">🎶<span>My Songs</span></button>
+</nav>
+
+<div id="toast" class="toast" hidden></div>
+<script src="script.js"></script>
+</body>
+  </html>
